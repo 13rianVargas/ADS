@@ -1,0 +1,309 @@
+@startuml
+skinparam linetype ortho
+left to right direction
+skinparam classAttributeIconSize 0
+
+
+package "co.edu.konradlorenz.model" {
+  abstract class Usuario <<abstract>> {
+    #idUsuario: int
+    #nombre: string
+    #edad: int
+    #telefono: string
+    #correo: string
+    +Usuario()
+    +Usuario(idUsuario: int, nombre: string, edad: int,\n telefono: string, correo: string)
+    +toString(): String
+  }
+
+  abstract class MiembroUniversitario <<abstract>>{
+    #idMiembroUniversitario: int
+    #facultad: Facultad
+    #codigoUniversitario: int
+    #listaDePrestamos: List<Recurso>
+    +MiembroUniversitario()
+    +MiembroUniversitario(idUsuario: int, nombre: string, edad: int,\n telefono: string, correo: string, idMiembroUniversitario: int,\n facultad: Facultad, codigoUniversitario: int, prestamos: List<Recurso>)
+    +toString(): String
+  }
+
+  class Profesor {
+    -idProfesor: int
+    +Profesor()
+    +Profesor(idUsuario: int, nombre: string, edad: int,\n telefono: string, correo: string, idMiembroUniversitario: int,\n facultad: Facultad, codigoUniversitario: int, prestamos: List<Recurso>, idProfesor: int)
+    +toString(): String
+  }
+
+  class Estudiante {
+    -idEstudiante: int
+    +Estudiante()
+    +Estudiante(idUsuario: int, nombre: string, edad: int,\n telefono: string, correo: string, idMiembroUniversitario: int,\n facultad: Facultad, codigoUniversitario: int, prestamos: List<Recurso>, idEstudiante: int)
+    +toString(): String
+  }
+
+  class Administrador {
+    -idAdministrador: int
+    #rol: Rol
+    +Administrador()
+    +Administrador(idUsuario: int, nombre: string, edad: int,\n telefono: string, correo: string, idAdministrador: int, rol: Rol)
+    +toString(): String
+  }
+
+  class Recurso {
+    -idRecurso: int
+    -rfid: string
+    -titulo: string
+    -autor: string
+    -tipo: TipoRecurso
+    +Recurso()
+    +Recurso(id: int, rfid: string, titulo: string,\n autor: string, tipo: TipoRecurso)
+    +toString(): String
+  }
+
+  class Prestamo {
+    -idPrestamo: int
+    -fechaInicio: Date
+    -fechaFin: Date
+    -recurso: Recurso
+    -usuario: MiembroUniversitario
+    +Prestamo()
+    +Prestamo(id: int, fechaInicio: Date, fechaFin: Date,\n recurso: Recurso, usuario: MiembroUniversitario)
+    +toString(): String
+  }
+
+  class Reserva {
+    #idReserva: int
+    #fecha: Date
+    +Reserva()
+    +Reserva(id: int, fecha: Date)
+    +toString(): String
+  }
+
+  class Notificacion {
+    #idNotificacion: int
+    #mensaje: string
+    #fechaEnvio: Date
+    +Notificacion()
+    +Notificacion(id: int, mensaje: string, fechaEnvio: Date)
+    +toString(): String
+  }
+
+  class Kiosco {
+    -idKiosco: int
+    -ubicacion: string
+    -recursosDevueltos: List<Recurso>
+    +Kiosco()
+    +Kiosco(id: int, ubicacion: string, recursosDevueltos: List<Recurso>)
+    +toString(): String
+  }
+
+  enum Facultad <<enumeration>> {
+    MATEMATICAS_E_INGENIERIAS
+    PSICOLOGIA
+    MARKETING
+    NEGOCIOS_INTERNACIONALES
+    ADMINISTRACION_DE_EMPRESAS
+    DESARROLLO_DE_SOFTWARE
+  }
+
+  enum Rol <<enumeration>> {
+    ADMINISTRADOR
+    BIBLIOTECARIO
+    AUXILIAR_DE_BIBLIOTECA
+    CATALOGADOR
+    PROMOTOR_DE_LECTURA
+  }
+
+  enum TipoRecurso <<enumeration>> {
+    LIBRO
+    REVISTA
+    PERIODICO
+    ARTICULO
+    PUBLICACION
+    TESIS
+    INVESTIGACION
+    MAPAS
+    DIDACTICO
+    CD_DVD
+  }
+}
+
+package "co.edu.konradlorenz.view" {
+  class UsuarioView {
+    +mostrarFormularioRegistro(): void
+    +mostrarPerfil(usuario: Usuario): void
+  }
+
+  class LibroView {
+    +mostrarCatalogo(): void
+    +mostrarDetallesRecurso(recurso: Recurso): void
+  }
+
+  class PrestamoView {
+    +mostrarFormularioPrestamo(): void
+    +mostrarHistorialPrestamos(usuario: Usuario): void
+  }
+
+  class AdminView {
+    +mostrarPanelAdmin(): void
+    +mostrarReportePrestamos(): void
+  }
+}
+
+package "co.edu.konradlorenz.controller" {
+  class Controlador {
+    -usuarioController: UsuarioController
+    -libroController: LibroController
+    -prestamoController: PrestamoController
+    -adminController: AdminController
+    -integracionesController: IntegracionesController
+
+    -usuarios: List<Usuario>
+    -miembros: List<MiembroUniversitario>
+    -profesores: List<Profesor>
+    -estudiantes: List<Estudiante>
+    -administradores: List<Administrador>
+    -recursos: List<Recurso>
+    -prestamos: List<Prestamo>
+    -reservas: List<Reserva>
+    -notificaciones: List<Notificacion>
+    -kioscos: List<Kiosco>
+
+    +run(): void
+  }
+
+  interface UsuarioController <<interface>> {
+    +crearUsuario(): void
+    +leerUsuario(): void
+    +actualizarUsuario(): void
+    +eliminarUsuario(): void
+  }
+
+  interface LibroController <<interface>> {
+    +crearLibro(): void
+    +leerLibro(): void
+    +actualizarLibro(): void
+    +eliminarLibro(): void
+  }
+
+  interface PrestamoController <<interface>> {
+    +crearPrestamo(): void
+    +leerPrestamo(): void
+    +actualizarPrestamo(): void
+    +eliminarPrestamo(): void
+  }
+
+  interface AdminController <<interface>> {
+    +crearAdministrador(): void
+    +leerAdministrador(): void
+    +actualizarAdministrador(): void
+    +eliminarAdministrador(): void
+  }
+
+  interface IntegracionesController <<interface>> {
+    +crearIntegracion(): void
+    +leerIntegracion(): void
+    +actualizarIntegracion(): void
+    +eliminarIntegracion(): void
+  }
+}
+
+package "co.edu.konradlorenz.dao" {
+  class Conexion {
+    -url: String
+    -usuario: String
+    -contrasena: String
+    -conexion: Connection
+    +conectar(): Connection
+    +cerrarConexion(): void
+  }
+
+  class UsuarioDAO {
+    +crearUsuario(usuario: Usuario): void
+    +obtenerUsuario(id: int): Usuario
+    +actualizarUsuario(usuario: Usuario): void
+    +eliminarUsuario(id: int): void
+    +obtenerTodos(): List<Usuario>
+    +buscarPorNombre(nombre: string): List<Usuario>
+    +obtenerPorRelacion(id: int): List<Usuario>
+    +existe(id: int): boolean
+  }
+
+  class RecursoDAO {
+    +crearRecurso(recurso: Recurso): void
+    +obtenerRecurso(id: int): Recurso
+    +actualizarRecurso(recurso: Recurso): void
+    +eliminarRecurso(id: int): void
+    +obtenerTodos(): List<Recurso>
+    +buscarPorNombre(nombre: string): List<Recurso>
+    +obtenerPorRelacion(id: int): List<Recurso>
+    +existe(id: int): boolean
+  }
+
+  class PrestamoDAO {
+    +crearPrestamo(prestamo: Prestamo): void
+    +obtenerPrestamo(id: int): Prestamo
+    +actualizarPrestamo(prestamo: Prestamo): void
+    +eliminarPrestamo(id: int): void
+    +obtenerTodos(): List<Prestamo>
+    +buscarPorNombre(nombre: string): List<Prestamo>
+    +obtenerPorRelacion(id: int): List<Prestamo>
+    +existe(id: int): boolean
+  }
+
+  class AdministradorDAO {
+    +crearAdministrador(admin: Administrador): void
+    +obtenerAdministrador(id: int): Administrador
+    +actualizarAdministrador(admin: Administrador): void
+    +eliminarAdministrador(id: int): void
+    +obtenerTodos(): List<Administrador>
+    +buscarPorNombre(nombre: string): List<Administrador>
+    +obtenerPorRelacion(id: int): List<Administrador>
+    +existe(id: int): boolean
+  }
+}
+
+Usuario <|-- MiembroUniversitario
+MiembroUniversitario <|-- Profesor
+MiembroUniversitario <|-- Estudiante
+Usuario <|-- Administrador
+Prestamo --> Recurso
+Controlador *-- UsuarioController
+Controlador *-- LibroController
+Controlador *-- PrestamoController
+Controlador *-- AdminController
+Controlador *-- IntegracionesController
+Controlador *-- Usuario
+Controlador *-- MiembroUniversitario
+Controlador *-- Profesor
+Controlador *-- Estudiante
+Controlador *-- Administrador
+Controlador *-- Recurso
+Controlador *-- Prestamo
+Controlador *-- Reserva
+Controlador *-- Notificacion
+Controlador *-- Kiosco
+
+UsuarioDAO *-- Usuario
+RecursoDAO *-- Recurso
+PrestamoDAO *-- Prestamo
+AdministradorDAO *-- Administrador
+
+UsuarioDAO ..> Conexion
+RecursoDAO ..> Conexion
+PrestamoDAO ..> Conexion
+AdministradorDAO ..> Conexion
+
+Controlador --> UsuarioDAO
+Controlador --> RecursoDAO
+Controlador --> PrestamoDAO
+Controlador --> AdministradorDAO
+
+UsuarioController ..> UsuarioDAO
+LibroController ..> RecursoDAO
+PrestamoController ..> PrestamoDAO
+AdminController ..> AdministradorDAO
+@enduml
+UsuarioView ..> UsuarioController
+LibroView ..> LibroController
+PrestamoView ..> PrestamoController
+AdminView ..> AdminController
