@@ -1,0 +1,125 @@
+@startuml
+actor Usuario
+participant Ventana
+participant RecursoControlador
+participant RecursoDAO
+participant ConexionBD
+participant GestorHistorial
+
+Usuario -> Ventana: 1. Ingresar al módulo de búsqueda
+Usuario -> Ventana: 2. Escribir palabra clave
+Usuario -> Ventana: 3. Aplicar filtros
+
+Ventana-> RecursoControlador : 4. procesarBusqueda()
+RecursoControlador -> RecursoDAO : 5. obtenerRecurso()
+RecursoDAO -> ConexionBD : 6. consultarRecurso()
+ConexionBD --> RecursoDAO : 7. Retorna resultado
+RecursoDAO --> RecursoControlador : 8. Retorna lista de coincidencias
+
+RecursoControlador -> GestorHistorial: 8.1 guardarBusqueda(usuario, palabraClave)
+GestorHistorial --> RecursoControlador: 8.2 confirmación guardado
+
+RecursoControlador --> Ventana: 9. Retorna resultados
+Ventana --> Usuario : 10. Retorna listado de coincidencias
+Usuario -> Ventana: 11. Seleccionar recurso
+
+Ventana-> RecursoDAO : 12. obtenerRecurso()
+RecursoDAO -> ConexionBD : 13. validarRecurso()
+ConexionBD --> RecursoDAO : 14. Retorna validacion del recurso
+RecursoDAO --> Ventana : 15. Retorna recurso validado
+
+alt Recurso existe
+    Ventana-> Usuario : 16. Mostrar opciones recurso
+else Recurso no existe
+    Ventana-> Usuario : 17. Recurso no encontrado
+end
+
+Usuario -> Ventana: 18. Solicitar ubicación
+Ventana-> RecursoControlador : 19. obtenerUbicación()
+RecursoControlador -> RecursoDAO : 20. consultarUbicación()
+RecursoDAO -> ConexionBD : 21. validarUbicacion()
+ConexionBD --> RecursoDAO : 22. Retornar validacion ubicación
+RecursoDAO --> RecursoControlador : 23. Ubicación validada
+RecursoControlador --> Ventana: 24. Retorna mapa interactivo
+Ventana -> Usuario: 25. Mostrar mapa interactivo
+@enduml
+
+Corrección con las 5 clases y lineas de vida:
+
+@startuml
+actor Usuario
+participant Ventana
+participant RecursoControlador
+participant RecursoDAO
+participant ConexionBD
+participant GestorHistorial
+
+Usuario -> Ventana: 1. Ingresar al módulo de búsqueda
+activate Ventana
+Usuario -> Ventana: 2. Escribir palabra clave
+Usuario -> Ventana: 3. Aplicar filtros
+
+Ventana -> RecursoControlador : 4. procesarBusqueda()
+activate RecursoControlador
+RecursoControlador -> RecursoDAO : 5. obtenerRecurso()
+activate RecursoDAO
+RecursoDAO -> ConexionBD : 6. consultarRecurso()
+activate ConexionBD
+ConexionBD --> RecursoDAO : 7. Retorna resultado
+deactivate RecursoDAO
+
+deactivate ConexionBD
+RecursoDAO --> RecursoControlador : 8. Retorna lista de coincidencias
+deactivate RecursoControlador
+
+RecursoControlador -> GestorHistorial: 9. guardarBusqueda()
+activate GestorHistorial
+GestorHistorial --> RecursoControlador: 10. Retorna confirmación guardado
+deactivate GestorHistorial
+
+RecursoControlador --> Ventana: 11. Retorna resultados
+deactivate Ventana
+
+Ventana --> Usuario : 12. Retorna listado de coincidencias
+Usuario -> Ventana: 13. Seleccionar recurso
+
+activate Ventana
+Ventana -> RecursoDAO : 14. obtenerRecurso()
+activate RecursoDAO
+RecursoDAO -> ConexionBD : 15. validarRecurso()
+activate ConexionBD
+ConexionBD --> RecursoDAO : 16. Retorna validacion del recurso
+deactivate ConexionBD
+deactivate RecursoDAO
+RecursoDAO --> Ventana : 17. Retorna recurso validado
+deactivate Ventana
+
+alt Recurso existe
+    Ventana -> Usuario : 18. Mostrar opciones recurso
+    activate Usuario
+    deactivate Usuario
+else Recurso no existe
+    Ventana -> Usuario : 19. Recurso no encontrado
+    activate Usuario
+    deactivate Usuario
+end
+
+Usuario -> Ventana: 20. Solicitar ubicación
+activate Ventana
+Ventana -> RecursoControlador : 21. obtenerUbicación()
+activate RecursoControlador
+RecursoControlador -> RecursoDAO : 22. consultarUbicación()
+activate RecursoDAO
+RecursoDAO -> ConexionBD : 23. validarUbicacion()
+activate ConexionBD
+ConexionBD --> RecursoDAO : 24. Retornar validacion ubicación
+deactivate ConexionBD
+deactivate RecursoDAO
+RecursoDAO --> RecursoControlador : 25. Ubicación validada
+deactivate RecursoControlador
+RecursoControlador --> Ventana: 26. Retorna mapa interactivo
+deactivate Ventana
+Ventana -> Usuario: 27. Mostrar mapa interactivo
+activate Usuario
+deactivate Usuario
+@enduml

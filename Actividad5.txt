@@ -1,0 +1,39 @@
+@startuml
+start
+
+:Ingresar al módulo de gestión de multas;
+:Mostrar lista de usuarios;
+:Seleccionar usuario;
+:Mostrar historial de préstamos y devoluciones;
+:Seleccionar préstamo;
+:Calcular valor de multa;
+:Confirmar multa;
+
+:Registrar multa en sistema;
+if (¿Error al registrar?) then (Sí)
+  :Generar reporte de error;
+  note right: [Etiqueta: .Error]
+  stop
+else
+  :Actualizar estado de usuario;
+  note right: [Etiqueta: .Multar]
+
+  :Enviar multa a Proteus;
+  if (¿Proteus responde con error?) then (Sí)
+    :Registrar error;
+    note right: [Etiqueta: .Error]
+  else
+    :Confirmación de Proteus;
+    note right: [Etiqueta: .Exitoso]
+    :Bloquear usuario;
+    note right: [Etiqueta: .bloqueo]
+    :Añadir al reporte de bloqueos;
+    note right: [Etiqueta: .generar_reporte]
+  endif
+
+  :Notificar al usuario;
+  :Registrar acción en historial de multas;
+endif
+
+stop
+@enduml

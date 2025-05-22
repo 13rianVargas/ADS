@@ -1,0 +1,42 @@
+@startuml
+actor Usuario
+participant Ventana
+participant Controlador
+participant Validador
+participant ConexionBD
+participant GestorHistorial
+
+Usuario -> Ventana : Ingresar al módulo de recursos
+Ventana -> Controlador : mostrarListaRecursos()
+Controlador -> ConexionBD : validarLista()
+ConexionBD --> Controlador : Retorna lista
+Controlador -> Ventana : Mostrar lista
+
+Usuario -> Ventana : Seleccionar recurso
+Ventana -> Controlador : Solicitar detalles del recurso
+Controlador -> ConexionBD : Obtener detalles
+ConexionBD --> Controlador : Retorna detalles
+Controlador -> Ventana : Mostrar detalles
+
+Usuario -> Ventana : Seleccionar opción editar
+Ventana -> Controlador : Solicitar edición
+Controlador -> Ventana : Habilitar campos editables
+
+Usuario -> Ventana: Ingresar cambios y confirmar
+Ventana -> Validador : Validar datos
+
+alt Datos inválidos
+  Validador -> Ventana : Notificar errores de formato
+else Campos obligatorios vacíos
+  Validador -> Ventana : Notificar campos requeridos
+else Datos válidos
+  Validador --> Controlador : Retorna datos correctos
+end
+  
+Controlador -> ConexionBD : Actualizar recurso
+ConexionBD --> Controlador : Retorna confirmación actualizacion
+Controlador -> GestorHistorial : Registrar actualización
+GestorHistorial --> Controlador : Retorna confirmación registro 
+Controlador -> Ventana : Mostrar recurso actualizado
+Ventana -> Usuario : Notificar éxito
+@enduml

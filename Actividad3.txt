@@ -1,0 +1,45 @@
+@startuml
+start
+
+:Ingresar al módulo de recursos;
+:Mostrar listado de recursos;
+:Seleccionar recurso de interés;
+:Mostrar detalles del recurso;
+:Seleccionar opción editar;
+:Habilitar campos editables;
+:Modificar y confirmar actualización;
+
+:Validar datos;
+partition Validación {
+    if (¿Formato válido?) then (No)
+        :Mostrar campos con error;
+        note right: [Etiqueta: Datos_inválidos]
+        stop
+    else
+        if (¿Campos obligatorios completos?) then (No)
+            :Mostrar campos requeridos;
+            note right: [Etiqueta: Datos_obligatorios]
+            stop
+        else
+            :Datos válidos;
+        endif
+    endif
+}
+
+:Actualizar base de datos;
+partition Resultado {
+    if (¿Error desconocido?) then (Sí)
+        :Notificar error;
+        note right: [Etiqueta: Error]
+        stop
+    else
+        :Confirmar actualización;
+        :Registrar en historial;
+        :Mostrar nueva información;
+        :Notificar éxito al administrador;
+        note right: [Etiqueta: Exitoso]
+    endif
+}
+
+stop
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+actor Usuario
+participant Ventana
+participant Controlador
+participant "CalculadorMultas" as Calculador
+participant ConexionBD
+participant Proteus
+participant "ServicioNotificaciones" as Notificador
+
+Usuario -> Ventana: Ingresar a módulo de gestión de multas
+Ventana-> Controlador : Solicitar lista de usuarios
+Controlador -> ConexionBD: Obtener usuarios y estados de cuenta
+ConexionBD--> Controlador : Lista de usuarios
+Controlador -> Ventana: Mostrar usuarios
+
+Usuario -> Ventana: Seleccionar usuario
+Ventana -> Controlador : Solicitar historial de préstamos
+Controlador -> ConexionBD: Obtener historial del usuario
+ConexionBD--> Controlador : Historial
+Controlador -> Ventana : Mostrar historial
+
+Usuario-> Ventana : Seleccionar préstamo
+Ventana-> Controlador : Solicitar cálculo de multa
+Controlador -> Calculador : Calcular valor de multa
+Calculador --> Controlador : Valor de multa
+
+Usuario -> Ventana: Confirmar multa
+Ventana-> Controlador : Registrar multa
+
+alt Error al registrar multa
+    Controlador -> ConexionBD: Error al guardar multa
+    Controlador -> ConexionBD: Generar reporte de error
+else Registro exitoso
+    Controlador -> ConexionBD: Guardar multa
+    Controlador -> ConexionBD: Actualizar estado del usuario
+
+    Controlador -> Proteus : Enviar multa a recibo
+    alt Error Proteus
+        Proteus -> Controlador : Falla
+        Controlador -> ConexionBD: Registrar error de sincronización
+    else Éxito Proteus
+        Proteus -> Controlador : Confirmación
+        Controlador -> ConexionBD: Bloquear usuario
+        Controlador -> ConexionBD: Añadir al reporte de bloqueos
+    end
+
+    Controlador -> Notificador : Notificar al usuario
+    Notificador -> Usuario : Enviar notificación
+
+    Controlador -> ConexionBD: Registrar en historial de multas
+end
+@enduml

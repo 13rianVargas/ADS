@@ -1,0 +1,23 @@
+@startuml
+start
+
+:Usuario selecciona "Devolver recurso";
+:Sistema solicita colocar recurso en escáner;
+:Usuario coloca el recurso;
+:Sistema escanea y obtiene ID del recurso;
+:Validar recurso en la base de datos;
+:Verificar estado del recurso;
+:Mostrar información del recurso al usuario;
+
+if (¿Usuario confirma devolución?) then (Sí)
+  :Registrar fecha y hora de devolución;
+  :Actualizar estado del recurso (disponible o en revisión);
+  :Generar registro de devolución;
+  :Mostrar mensaje de devolución exitosa;
+else (No)
+  :Cancelar proceso;
+  :Mostrar mensaje de cancelación;
+endif
+
+stop
+@enduml
