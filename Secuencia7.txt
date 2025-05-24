@@ -6,21 +6,40 @@ participant RecursoDAO
 participant PrestamoDAO
 participant ConexionBD
 
-Usuario -> Kiosco : Seleccionar opción "Devolver recurso"
-Kiosco -> Usuario : Solicitar colocar recurso en escáner
-Usuario -> Kiosco : Coloca recurso
-Kiosco -> RecursoControlador : Escanear recurso y obtener ID
-RecursoControlador -> RecursoDAO : Validar que el recurso pertenezca a la biblioteca
-RecursoDAO -> ConexionBD : Consulta de recurso por ID
-ConexionBD --> RecursoDAO : Datos del recurso
-RecursoDAO --> RecursoControlador : Recurso válido
-RecursoControlador -> Kiosco : Mostrar información del recurso
+Usuario -> Kiosco : 1. Devolver recurso
+activate Kiosco
+Kiosco -> Usuario : 2. Escanear el recurso
+deactivate Kiosco
+Usuario -> Kiosco : 3. Escanea recurso
+activate Kiosco
+Kiosco -> RecursoControlador : 4. obtenerRecurso()
+activate RecursoControlador
+RecursoControlador -> RecursoDAO : 5. validarRecurso()
+activate RecursoDAO
+RecursoDAO -> ConexionBD : 6. consultarRecurso()
+activate ConexionBD
+ConexionBD --> RecursoDAO : 7. Retorna datos recurso
+deactivate ConexionBD
+RecursoDAO --> RecursoControlador : 8. Retorna recurso válido
+deactivate RecursoDAO
+RecursoControlador -> Kiosco : 9. Mostrar información recurso
+deactivate RecursoControlador
+deactivate Kiosco
 
-Usuario -> Kiosco : Confirmar devolución
-Kiosco -> RecursoControlador : Confirmación recibida
-RecursoControlador -> PrestamoDAO : Registrar devolución (fecha y hora)
-PrestamoDAO -> ConexionBD : Actualizar estado del recurso
-ConexionBD --> PrestamoDAO : Confirmación de actualización
-PrestamoDAO --> RecursoControlador : Registro exitoso
-RecursoControlador -> Kiosco : Mostrar mensaje de devolución exitosa
+Usuario -> Kiosco : 10. Confirmar devolución
+activate Kiosco
+Kiosco -> RecursoControlador : 11. procesoDevolucion()
+activate RecursoControlador
+RecursoControlador -> PrestamoDAO : 12. eliminarPrestamo()
+activate PrestamoDAO
+PrestamoDAO -> ConexionBD : 13. actualizarRecurso()
+activate ConexionBD
+ConexionBD --> PrestamoDAO : 14. Retorna confirmación
+deactivate ConexionBD
+PrestamoDAO --> RecursoControlador : 15. Retorna registro exitoso
+deactivate PrestamoDAO
+RecursoControlador -> Kiosco : 16. Mensaje devolución exitosa
+deactivate RecursoControlador
+deactivate Kiosco
+
 @enduml

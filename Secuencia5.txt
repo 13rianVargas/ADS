@@ -5,48 +5,68 @@ participant Controlador
 participant "CalculadorMultas" as Calculador
 participant ConexionBD
 participant Proteus
-participant "ServicioNotificaciones" as Notificador
+participant CorreoInstitucional
 
-Usuario -> Ventana: Ingresar a módulo de gestión de multas
-Ventana-> Controlador : Solicitar lista de usuarios
-Controlador -> ConexionBD: Obtener usuarios y estados de cuenta
-ConexionBD--> Controlador : Lista de usuarios
-Controlador -> Ventana: Mostrar usuarios
+Usuario -> Ventana: 1. Ingresar a módulo de gestión de multas
+activate Ventana
+Ventana -> Controlador: 2. mostrarListaUsuarios()
+activate Controlador
+Controlador -> ConexionBD: 3. validarListaUsuarios()
+activate ConexionBD
+ConexionBD --> Controlador: 4. Retorna lista de usuarios
+deactivate ConexionBD
+Controlador -> Ventana: 5. Mostrar usuarios
+deactivate Controlador
+deactivate Ventana
 
-Usuario -> Ventana: Seleccionar usuario
-Ventana -> Controlador : Solicitar historial de préstamos
-Controlador -> ConexionBD: Obtener historial del usuario
-ConexionBD--> Controlador : Historial
-Controlador -> Ventana : Mostrar historial
+Usuario -> Ventana: 6. Seleccionar usuario
+activate Ventana
+Ventana -> Controlador: 7. mostrarHistorialPrestamos()
+activate Controlador
+Controlador -> ConexionBD: 8. ValidarHistorialUsuario()
+activate ConexionBD
+ConexionBD --> Controlador: 9. Retorna historial
+deactivate ConexionBD
+Controlador -> Ventana: 10. Mostrar historial
+deactivate Controlador
+deactivate Ventana
 
-Usuario-> Ventana : Seleccionar préstamo
-Ventana-> Controlador : Solicitar cálculo de multa
-Controlador -> Calculador : Calcular valor de multa
-Calculador --> Controlador : Valor de multa
+Usuario -> Ventana: 11. Seleccionar préstamo
+activate Ventana
+Ventana -> Controlador: 12. procesoMulta()
+activate Controlador
+Controlador -> Calculador: 13. calcularValorMulta()
+activate Calculador
+Calculador --> Controlador: 14. Retorna valor de multa
+deactivate Calculador
+Controlador -> Ventana: 15. Mostrar valor multa
+deactivate Controlador
+deactivate Ventana
 
-Usuario -> Ventana: Confirmar multa
-Ventana-> Controlador : Registrar multa
+Usuario -> Ventana: 16. Confirmar multa
+activate Ventana
+Ventana -> Controlador: 17. registrarMulta()
+activate Controlador
+Controlador -> ConexionBD: 18. guardarMulta()
+activate ConexionBD
+ConexionBD --> Controlador: 19. Retorna guardado correcto
+deactivate ConexionBD
 
-alt Error al registrar multa
-    Controlador -> ConexionBD: Error al guardar multa
-    Controlador -> ConexionBD: Generar reporte de error
-else Registro exitoso
-    Controlador -> ConexionBD: Guardar multa
-    Controlador -> ConexionBD: Actualizar estado del usuario
+Controlador -> Proteus: 20. registrarMultaEnRecibo()
+activate Proteus
+Proteus --> Controlador: 21. Retorna confirmación de registro
+deactivate Proteus
 
-    Controlador -> Proteus : Enviar multa a recibo
-    alt Error Proteus
-        Proteus -> Controlador : Falla
-        Controlador -> ConexionBD: Registrar error de sincronización
-    else Éxito Proteus
-        Proteus -> Controlador : Confirmación
-        Controlador -> ConexionBD: Bloquear usuario
-        Controlador -> ConexionBD: Añadir al reporte de bloqueos
-    end
+Controlador -> ConexionBD: 22. bloquearUsuario
+activate ConexionBD
+ConexionBD --> Controlador: 23. Usuario bloqueado
+deactivate ConexionBD
 
-    Controlador -> Notificador : Notificar al usuario
-    Notificador -> Usuario : Enviar notificación
-
-    Controlador -> ConexionBD: Registrar en historial de multas
-end
+Controlador -> CorreoInstitucional: 24. notificarMultaUsuario()
+activate CorreoInstitucional
+CorreoInstitucional --> Controlador: 25. Retorna confirmacion
+deactivate CorreoInstitucional
+Controlador -> Ventana : 26. Mostrar mensaje proceso exitoso
+deactivate Controlador
+deactivate Ventana
 @enduml

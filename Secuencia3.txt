@@ -1,42 +1,71 @@
 @startuml
 actor Usuario
 participant Ventana
-participant Controlador
-participant Validador
+participant RecursoControlador
+participant RecursoDAO
 participant ConexionBD
 participant GestorHistorial
 
-Usuario -> Ventana : Ingresar al módulo de recursos
-Ventana -> Controlador : mostrarListaRecursos()
-Controlador -> ConexionBD : validarLista()
-ConexionBD --> Controlador : Retorna lista
-Controlador -> Ventana : Mostrar lista
+Usuario -> Ventana : 1. Ingresar al módulo de recursos
+activate Ventana
+Ventana -> RecursoControlador: 2. mostrarListaRecursos()
+activate RecursoControlador
+RecursoControlador-> RecursoDAO : 3. obtenerListaRecursos()
+activate RecursoDAO
+RecursoDAO -> ConexionBD : 4. validarLista()
+activate ConexionBD
+ConexionBD --> RecursoDAO : 5. Retorna datos
+deactivate ConexionBD
+RecursoDAO --> RecursoControlador : 6. Retorna lista
+deactivate RecursoDAO
+RecursoControlador -> Ventana : 7. Mostrar lista
+deactivate RecursoControlador
+deactivate Ventana
 
-Usuario -> Ventana : Seleccionar recurso
-Ventana -> Controlador : Solicitar detalles del recurso
-Controlador -> ConexionBD : Obtener detalles
-ConexionBD --> Controlador : Retorna detalles
-Controlador -> Ventana : Mostrar detalles
+Usuario -> Ventana : 8. Seleccionar recurso
+activate Ventana
+Ventana -> RecursoControlador: 9. Solicitar detalles del recurso
+activate RecursoControlador
+RecursoControlador-> RecursoDAO : 10. obtenerDetallesRecurso()
+activate RecursoDAO
+RecursoDAO -> ConexionBD : 11. validarDetalles()
+activate ConexionBD
+ConexionBD --> RecursoDAO : 12. Retorna detalles
+deactivate ConexionBD
+RecursoDAO --> RecursoControlador: 13. Retorna detalles
+deactivate RecursoDAO
+RecursoControlador-> Ventana : 14. Mostrar detalles
+deactivate RecursoControlador
+deactivate Ventana
 
-Usuario -> Ventana : Seleccionar opción editar
-Ventana -> Controlador : Solicitar edición
-Controlador -> Ventana : Habilitar campos editables
+Usuario -> Ventana : 15. Seleccionar opción editar
+activate Ventana
+Ventana -> RecursoControlador: 16. Solicitar edición
+activate RecursoControlador
+RecursoControlador-> Ventana : 17. Habilitar campos editables
+deactivate RecursoControlador
+deactivate Ventana
 
-Usuario -> Ventana: Ingresar cambios y confirmar
-Ventana -> Validador : Validar datos
+Usuario -> Ventana: 18. Ingresar cambios y confirmar
+activate Ventana
+Ventana -> RecursoControlador: 19. Enviar cambios
+activate RecursoControlador
 
-alt Datos inválidos
-  Validador -> Ventana : Notificar errores de formato
-else Campos obligatorios vacíos
-  Validador -> Ventana : Notificar campos requeridos
-else Datos válidos
-  Validador --> Controlador : Retorna datos correctos
-end
-  
-Controlador -> ConexionBD : Actualizar recurso
-ConexionBD --> Controlador : Retorna confirmación actualizacion
-Controlador -> GestorHistorial : Registrar actualización
-GestorHistorial --> Controlador : Retorna confirmación registro 
-Controlador -> Ventana : Mostrar recurso actualizado
-Ventana -> Usuario : Notificar éxito
+RecursoControlador-> RecursoDAO : 20. actualizarRecurso()
+activate RecursoDAO
+RecursoDAO -> ConexionBD : 21. ejecutarActualizacion()
+activate ConexionBD
+ConexionBD --> RecursoDAO : 22. Confirmación
+deactivate ConexionBD
+RecursoDAO --> RecursoControlador: 23. Retorna confirmación
+deactivate RecursoDAO
+
+RecursoControlador -> GestorHistorial : 24. Registrar actualización
+activate GestorHistorial
+GestorHistorial --> RecursoControlador : 25. Retorna confirmación registro
+deactivate GestorHistorial
+RecursoControlador-> Ventana : 26. Mostrar recurso actualizado
+deactivate RecursoControlador
+Ventana -> Usuario : 27. Notificar éxito
+deactivate Ventana
 @enduml
