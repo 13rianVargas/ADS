@@ -1,0 +1,78 @@
+@startuml
+skinparam packageStyle rect
+
+package "co.edu.konradlorenz.model" {
+  class Usuario
+  class MiembroUniversitario
+  class Profesor
+  class Estudiante
+  class Administrador
+  class Recurso
+  class Prestamo
+  class Reserva
+  class Notificacion
+  class Kiosco
+  enum Facultad
+  enum Rol
+  enum TipoRecurso
+}
+
+package "co.edu.konradlorenz.view" {
+  class UsuarioView
+  class LibroView
+  class PrestamoView
+  class AdminView
+  class KioscoView
+}
+
+package "co.edu.konradlorenz.controller" {
+  class Controlador
+  interface UsuarioController
+  interface LibroController
+  interface PrestamoController
+  interface AdminController
+  interface IntegracionesController
+}
+
+package "co.edu.konradlorenz.dao" {
+  class ConexionBD
+  class UsuarioDAO
+  class RecursoDAO
+  class PrestamoDAO
+  class AdministradorDAO
+}
+
+package "co.edu.konradlorenz.integraciones" {
+  class SistemaExterno
+}
+
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.dao.UsuarioDAO
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.dao.RecursoDAO
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.dao.PrestamoDAO
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.dao.AdministradorDAO
+
+co.edu.konradlorenz.view.UsuarioView --> co.edu.konradlorenz.controller.UsuarioController
+co.edu.konradlorenz.view.LibroView --> co.edu.konradlorenz.controller.LibroController
+co.edu.konradlorenz.view.PrestamoView --> co.edu.konradlorenz.controller.PrestamoController
+co.edu.konradlorenz.view.AdminView --> co.edu.konradlorenz.controller.AdminController
+co.edu.konradlorenz.view.KioscoView --> co.edu.konradlorenz.model.Kiosco
+
+co.edu.konradlorenz.dao.UsuarioDAO ..> co.edu.konradlorenz.dao.ConexionBD
+co.edu.konradlorenz.dao.RecursoDAO ..> co.edu.konradlorenz.dao.ConexionBD
+co.edu.konradlorenz.dao.PrestamoDAO ..> co.edu.konradlorenz.dao.ConexionBD
+co.edu.konradlorenz.dao.AdministradorDAO ..> co.edu.konradlorenz.dao.ConexionBD
+
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Usuario
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.MiembroUniversitario
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Profesor
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Estudiante
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Administrador
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Recurso
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Prestamo
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Reserva
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Notificacion
+co.edu.konradlorenz.controller.Controlador --> co.edu.konradlorenz.model.Kiosco
+
+co.edu.konradlorenz.controller.IntegracionesController --> co.edu.konradlorenz.integraciones.SistemaExterno
+
+@enduml

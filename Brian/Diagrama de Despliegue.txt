@@ -1,0 +1,58 @@
+@startuml
+skinparam linetype ortho
+skinparam nodeFontColor black
+skinparam nodeFontSize 12
+skinparam nodeFontName Arial
+
+node "Usuario" as Usuario {
+  [Dispositivo Móvil]
+  [Navegador Web]
+}
+
+node "Servidor de Aplicaciones" as Servidor {
+  [API REST]
+  [Controladores]
+  [Gestor de Notificaciones]
+  [Modelo]
+  [Vista]
+  [Gestor de Roles]
+  [Gestor de Tipos de Recursos]
+  [Gestor de Facultades]
+}
+
+node "Base de Datos" as BaseDatos {
+  [Usuarios]
+  [Recursos]
+  [Préstamos]
+  [Reservas]
+  [Notificaciones]
+  [Roles]
+  [Tipos de Recursos]
+  [Facultades]
+}
+
+node "Kiosco" as Kiosco {
+  [Escáner RFID]
+  [Módulo de Devoluciones]
+}
+
+node "Integraciones Externas" as Integraciones {
+  [Sistema Proteus]
+  [Biblioteca Luis Ángel Arango]
+}
+
+Usuario --> Servidor : HTTPS
+Servidor --> Integraciones : API
+Servidor --> BaseDatos : JDBC
+Kiosco --> Servidor : HTTPS
+"Dispositivo Móvil" --> "Vista" : HTTPS
+"Navegador Web" --> "Vista" : HTTPS
+"Vista" --> "Controladores" : Interno
+"Controladores" --> "Modelo" : Interno
+"Modelo" --> "BaseDatos" : JDBC
+"Controladores" --> "Sistema Proteus" : API
+"Controladores" --> "Biblioteca Luis Ángel Arango" : API
+"Kiosco" --> "Controladores" : HTTPS
+"Escáner RFID" --> "Módulo de Devoluciones" : Interno
+"Módulo de Devoluciones" --> "Controladores" : HTTPS
+@enduml

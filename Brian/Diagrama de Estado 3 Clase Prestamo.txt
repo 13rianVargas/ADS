@@ -1,0 +1,12 @@
+@startuml
+state "Prestamo" as P {
+  [*] -down-> Solicitado
+  Solicitado -down-> EnProceso : Validar disponibilidad
+  EnProceso -right-> Aprobado : Recurso disponible
+  EnProceso -down-> Rechazado : Recurso no disponible
+  Aprobado -down-> Activo : Usuario recoge el recurso
+  Activo -right-> Finalizado : Recurso devuelto
+  Activo -down-> Vencido : Tiempo de préstamo expirado
+  Vencido -right-> Finalizado : Recurso devuelto
+}
+@enduml

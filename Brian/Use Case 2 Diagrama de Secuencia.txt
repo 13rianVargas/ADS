@@ -1,0 +1,48 @@
+@startuml
+actor MiembroUniversitario
+participant PrestamoView
+participant PrestamoController
+participant PrestamoDAO
+participant ConexionBD
+participant Controlador
+participant Prestamo
+
+autonumber
+
+MiembroUniversitario -> PrestamoView : Solicitar préstamo
+activate PrestamoView
+PrestamoView -> PrestamoController : Solicitar préstamo
+activate PrestamoController
+PrestamoController -> PrestamoDAO : Obtener recurso
+activate PrestamoDAO
+PrestamoDAO -> ConexionBD : Conexión
+activate ConexionBD
+ConexionBD --> PrestamoDAO : Conexión establecida
+deactivate ConexionBD
+PrestamoDAO -> ConexionBD : Buscar recurso
+activate ConexionBD
+ConexionBD --> PrestamoDAO : Recurso encontrado
+deactivate ConexionBD
+PrestamoDAO --> PrestamoController : Recurso
+deactivate PrestamoDAO
+PrestamoController -> Controlador : Procesar préstamo
+activate Controlador
+Controlador -> Prestamo : Crear préstamo
+activate Prestamo
+Prestamo --> Controlador : Préstamo creado
+deactivate Prestamo
+Controlador -> PrestamoDAO : Guardar préstamo
+activate PrestamoDAO
+PrestamoDAO -> ConexionBD : Registrar préstamo
+activate ConexionBD
+ConexionBD --> PrestamoDAO : Confirmación
+deactivate ConexionBD
+PrestamoDAO --> Controlador : Confirmación
+deactivate PrestamoDAO
+Controlador --> PrestamoController : Confirmación
+deactivate Controlador
+PrestamoController --> PrestamoView : Mostrar confirmación
+deactivate PrestamoController
+PrestamoView --> MiembroUniversitario : Confirmación
+deactivate PrestamoView
+@enduml

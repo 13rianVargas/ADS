@@ -1,0 +1,31 @@
+@startuml
+|Administrador|
+start
+:Inicia sesión;
+:Accede al panel de administración;
+|AdminView|
+:Solicita lista de administradores;
+|AdminController|
+:Obtiene administradores;
+|AdministradorDAO|
+:Conecta a la base de datos;
+:Cierra conexión;
+:Devuelve lista de administradores;
+|AdminController|
+:Devuelve lista a AdminView;
+|AdminView|
+:Solicita reporte de préstamos;
+|PrestamoView|
+:Solicita préstamos;
+|PrestamoController|
+:Obtiene préstamos;
+|PrestamoDAO|
+:Conecta a la base de datos;
+:Cierra conexión;
+:Devuelve lista de préstamos;
+|PrestamoController|
+:Devuelve lista a PrestamoView;
+|PrestamoView|
+:Genera reporte;
+stop
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+state "Recurso" as R {
+  [*] -down-> Disponible
+  Disponible -left-> Prestado : Usuario solicita préstamo
+  Prestado -right-> Reservado : Otro usuario reserva el recurso
+  Reservado -left-> Prestado : Usuario recoge el recurso
+  Prestado -left-> Disponible : Recurso devuelto
+}
+@enduml

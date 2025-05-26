@@ -1,0 +1,33 @@
+@startuml
+|MiembroUniversitario|
+start
+:Solicita préstamo;
+|PrestamoView|
+:Llama a PrestamoController;
+|PrestamoController|
+:Llama a PrestamoDAO;
+|PrestamoDAO|
+:Obtiene conexión de base de datos;
+|ConexionBD|
+:Devuelve conexión;
+|PrestamoDAO|
+:Ejecuta consulta para buscar recurso;
+:Devuelve recurso a PrestamoController;
+|PrestamoController|
+:Crea un nuevo objeto Prestamo;
+|Prestamo|
+:Guarda el préstamo llamando a PrestamoDAO;
+|PrestamoDAO|
+:Obtiene conexión de base de datos;
+|ConexionBD|
+:Devuelve conexión;
+|PrestamoDAO|
+:Registra el préstamo;
+:Confirma a PrestamoController;
+|PrestamoController|
+:Muestra confirmación a PrestamoView;
+|PrestamoView|
+:Muestra confirmación al MiembroUniversitario;
+|MiembroUniversitario|
+stop
+@enduml

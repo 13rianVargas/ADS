@@ -1,0 +1,73 @@
+CASO DE ESTUDIO 2025-1 – SISTEMA DE INFORMACIÓN PARA UNA BIBLIOTECA UNIVERSITARIA 
+ 
+Descripción general: 
+Una universidad de renombre, con más de 20,000 estudiantes y 1,500 profesores, busca 
+implementar un sistema automatizado para gestionar su biblioteca central. Actualmente, el proceso 
+es manual y genera numerosos problemas, como pérdida de libros, dificultad para localizar recursos 
+específicos y falta de control en los préstamos. El nuevo sistema debe cubrir tanto las necesidades 
+de los usuarios (estudiantes y profesores) como las de los administradores. Su equipo de trabajo ha 
+sido seleccionado para realizar el proceso de análisis funcional y diseño del sistema. 
+ 
+Objetivos del sistema: 
+Mejorar  la  experiencia  del  usuario  al  facilitar  la  búsqueda,  préstamo  y  devolución  de  libros. 
+Garantizar  la  integridad  y  seguridad  de  los  datos  de  los  usuarios  y  los  libros.  Permitir  a  los 
+administradores  generar  reportes  detallados  sobre  el  uso  de  la  biblioteca.  Reducir  el  tiempo  y 
+esfuerzo asociados con la gestión manual de recursos. 
+ 
+Descripción de las necesidades: 
+El  sistema  debe  permitir  a  los  usuarios  buscar  libros  por  título,  autor,  palabra  clave  o  ISBN.  Los 
+usuarios registrados deben poder solicitar el préstamo de  libros desde  la aplicación web o móvil. 
+Los  administradores  deben  poder  registrar  nuevos  libros,  actualizar  su  información  y  eliminarlos 
+cuando sea necesario. Además, el sistema debe generar notificaciones automáticas a los usuarios 
+sobre las fechas de devolución. Los usuarios deben poder consultar su historial de préstamos desde 
+su  perfil.  Los  administradores  deben  poder  generar  reportes  sobre  los  libros  más  solicitados  y 
+usuarios con más préstamos. Es importante que los usuarios puedan escanear el código de barras 
+de  un  libro  desde  la  aplicación  móvil  para  acceder  a  su  información.  Además,  el  sistema  debe 
+permitir a los administradores gestionar roles de usuario (estudiantes, profesores, 
+administradores).  Los  usuarios  deben  poder  reservar  libros  que  actualmente  estén  prestados. 
+También  debe  permitir  la  devolución  automática  fuera  del  horario  de  funcionamiento  de  la 
+biblioteca depositando el libro en un buzón de devolución que automáticamente  escanea el libro 
+por  medio  de  tecnología  RFID  y  registra  en  el  sistema  que  el  libro  fue  devuelto  de  manera 
+automática. Los usuarios deben poder recibir notificaciones sobre libros recientemente agregados 
+al catálogo. Por último, el sistema debe permitir la integración con la base  de  datos central de  la 
+universidad para sincronizar información de los usuarios. Adicionalmente, los usuarios deben poder: 
+• Verificar la ubicación física de un libro dentro de la biblioteca mediante un mapa interactivo. 
+• Calificar y dejar reseñas sobre los libros que han leído. 
+• Acceder a una lista  de sugerencias personalizadas basadas en su historial de  préstamos y 
+preferencias. 
+• Descargar recursos digitales, como artículos o libros electrónicos, desde la plataforma. 
+• Solicitar prórrogas en los préstamos actuales directamente desde su perfil. 
+• Consultar la disponibilidad de salas de estudio y realizar reservas. 
+• Configurar preferencias de notificación, como correo electrónico o mensajes de texto. 
+• Participar en foros de discusión sobre libros o temas relacionados con la biblioteca. 
+• El  sistema  debe  ofrecer  la  posibilidad  de  conectarse  con  el  sistema  de  información  de  la 
+biblioteca Luis Angel Arango a través de una API que permite buscar libros en esa biblioteca 
+y reservarlos para poderlos consultar allá. 
+• El sistema también debe conectarse con el sistema financiero de la universidad denominado 
+“Proteus” para poder cargar al recibo de pago del estudiante cualquier multa que se genere 
+por  el  incumplimiento  en  la  entrega  a  tiempo  de  los  libros  que  se  han  solicitado  como 
+préstamo. 
+ 
+El sistema debe ser accesible las 24 horas del día, los 7 días de  la semana. La búsqueda de  libros 
+debe completarse en un tiempo no mayor a 2 segundos. Debe ser compatible con los navegadores 
+web  más  populares  y  dispositivos  móviles  iOS  y  Android.  Los  datos  del  sistema  deben  estar 
+protegidos mediante cifrado SSL/TLS. El tiempo de respuesta para la autenticación de usuarios no 
+debe superar 1 segundo. El sistema debe permitir hasta 1,000 usuarios simultáneos sin degradar su 
+rendimiento. Las copias de seguridad de la base de datos deben realizarse automáticamente cada 
+24 horas. La  aplicación móvil debe ocupar un máximo de  50 MB en almacenamiento. Además, el 
+sistema  web  debe  cumplir  con  las  normas  de  accesibilidad  WCAG  2.1  y  debe  integrarse  con  el 
+sistema de correo institucional para enviar notificaciones. El tiempo de despliegue de 
+actualizaciones  no  debe  superar  los  15  minutos  y  debe  garantizar  una  disponibilidad  del  99.9% 
+anual. 
+ 
+Escenarios de uso: 
+Un estudiante desea buscar un libro sobre "programación en Python" en el catálogo y reservarlo. 
+Por otro lado, un profesor necesita consultar su historial de préstamos para verificar qué libros debe 
+devolver.  También  es  común  que  un  administrador  agregue  un  nuevo  lote  de  libros  recién 
+adquiridos al sistema. En ciertos casos, un estudiante podrá escanear el código de barras de un libro 
+a  través  de  la  cámara  del  celular  para  verificar  su  disponibilidad,  o  bien  recibir  una  notificación 
+automática indicando que su libro debe devolverse en 3 días. Los administradores también tienen 
+la posibilidad de generar reportes mensuales de los libros más solicitados. Otro escenario relevante 
+es el de un kiosco automatizado que registra la devolución de varios libros y actualiza el sistema en 
+tiempo  real.  Finalmente,  los  usuarios  podrán  recibir  notificaciones  sobre  libros  recomendados 
+según sus intereses o sobre nuevos libros agregados al catálogo

@@ -1,30 +1,38 @@
 @startuml
+|Usuario|
 start
+
+title Diagrama de Actividad: Búsqueda de Recurso
 
 :Ingresar al módulo de búsqueda;
 :Escribir palabra clave del recurso;
 :Aplicar filtros de búsqueda;
 
+|Sistema|
 :Procesar búsqueda en base de datos;
 :Verificar existencia y disponibilidad del recurso;
 
 if (¿Recurso existe?) then (Sí)
     if (¿Recurso disponible?) then (Sí)
+        |Usuario|
         :Mostrar listado de coincidencias;
         :Seleccionar recurso deseado;
         :Validar información del recurso;
         :Mostrar opciones disponibles;
 
         :Seleccionar "Solicitar ubicación";
+        |Sistema|
         :Validar ubicación del recurso en la base de datos;
         :Mostrar mapa interactivo con ubicación;
         stop
     else (No)
+        |Usuario|
         :Notificar al usuario que el recurso no está disponible;
         :Ofrecer opción para reservar el recurso;
         stop
     endif
 else (No)
+    |Usuario|
     :Notificar que el recurso no existe en el catálogo;
     stop
 endif

@@ -1,0 +1,40 @@
+@startuml
+actor Usuario as U
+participant "UsuarioView" as UV
+participant "RecursoController" as RC
+participant "Controlador" as C
+participant "RecursoDAO" as RD
+participant "BaseDeDatos" as BD
+participant "Luis Ángel Arango" as LAA
+
+autonumber
+
+U -> UV: Solicitar búsqueda
+activate UV
+UV -> RC: Enviar solicitud
+activate RC
+RC -> C: Procesar solicitud
+activate C
+C -> RD: Buscar recurso
+activate RD
+RD -> BD: Ejecutar consulta
+activate BD
+BD --> RD: Resultado local
+deactivate BD
+RD --> C: Resultado de la consulta
+deactivate RD
+C -> RC: Retornar resultados
+deactivate C
+RC -> UV: Combinar resultados
+deactivate C
+alt Resultados insuficientes
+    RC -> LAA: Buscar en sistema externo
+    activate LAA
+    LAA --> RC: Resultado externo
+    deactivate LAA
+end
+RC --> UV: Combinar resultados
+deactivate RC
+UV --> U: Mostrar resultados
+deactivate UV
+@enduml

@@ -208,7 +208,7 @@ package "co.edu.konradlorenz.controller" {
 }
 
 package "co.edu.konradlorenz.dao" {
-  class Conexion {
+  class ConexionBD {
     -url: String
     -usuario: String
     -contrasena: String
@@ -288,10 +288,10 @@ RecursoDAO *-- Recurso
 PrestamoDAO *-- Prestamo
 AdministradorDAO *-- Administrador
 
-UsuarioDAO ..> Conexion
-RecursoDAO ..> Conexion
-PrestamoDAO ..> Conexion
-AdministradorDAO ..> Conexion
+UsuarioDAO ..> ConexionBD
+RecursoDAO ..> ConexionBD
+PrestamoDAO ..> ConexionBD
+AdministradorDAO ..> ConexionBD
 
 Controlador --> UsuarioDAO
 Controlador --> RecursoDAO
@@ -303,7 +303,7 @@ LibroController ..> RecursoDAO
 PrestamoController ..> PrestamoDAO
 AdminController ..> AdministradorDAO
 @enduml
-UsuarioView ..> UsuarioController
-LibroView ..> LibroController
-PrestamoView ..> PrestamoController
-AdminView ..> AdminController
+UsuarioView --> UsuarioController
+LibroView --> LibroController
+PrestamoView --> PrestamoController
+AdminView --> AdminController

@@ -1,0 +1,45 @@
+@startuml
+autonumber
+actor Administrador
+Administrador -> AdminView : Mostrar panel
+activate AdminView
+AdminView -> AdminController : Leer administradores
+activate AdminController
+AdminController -> AdministradorDAO : Obtener datos
+activate AdministradorDAO
+AdministradorDAO -> ConexionBD : Conectar
+activate ConexionBD
+ConexionBD --> AdministradorDAO : Conexión establecida
+deactivate ConexionBD
+AdministradorDAO --> AdminController : Lista de administradores
+deactivate AdministradorDAO
+AdminController -> AdminController : Generar reporte de recursos
+AdminController -> ConexionBD : Guardar datos
+activate ConexionBD
+ConexionBD --> AdminController : Datos guardados
+deactivate ConexionBD
+AdminController --> AdminView : Reporte generado
+deactivate AdminController
+AdminView -> PrestamoView : Solicitar reporte de préstamos
+activate PrestamoView
+PrestamoView -> PrestamoController : Solicitar préstamos
+activate PrestamoController
+PrestamoController -> PrestamoDAO : Obtener préstamos
+activate PrestamoDAO
+PrestamoDAO -> ConexionBD : Conectar
+activate ConexionBD
+ConexionBD --> PrestamoDAO : Conexión establecida
+deactivate ConexionBD
+PrestamoDAO -> ConexionBD : Cerrar conexión
+activate ConexionBD
+deactivate ConexionBD
+PrestamoDAO --> PrestamoController : Lista de préstamos
+deactivate PrestamoDAO
+PrestamoController --> PrestamoView : Lista de préstamos
+deactivate PrestamoController
+PrestamoView -> PrestamoView : Generar reporte
+PrestamoView -> AdminView : Reporte generado
+deactivate PrestamoView
+AdminView --> Administrador : Mostrar reporte final
+deactivate AdminView
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+|Usuario|
+start
+
+:Solicitar búsqueda;
+|UsuarioView|
+:Enviar solicitud;
+|RecursoController|
+:Procesar solicitud;
+|Controlador|
+:Buscar en base de datos local;
+|RecursoDAO|
+:Ejecutar consulta;
+|BaseDeDatos|
+:Retornar resultados;
+
+if (¿Resultados suficientes?) then (Sí)
+  |UsuarioView|
+  :Mostrar resultados;
+else (No)
+  |RecursoController|
+  :Ampliar búsqueda;
+  :Consultar en sistema externo;
+  |Luis Ángel Arango|
+  :Retornar resultados;
+  |RecursoController|
+  if (¿Resultados externos?) then (Sí)
+    :Combinar resultados;
+    |UsuarioView|
+    :Mostrar resultados;
+  else (No)
+    |UsuarioView|
+    :Notificar sin resultados;
+  endif
+endif
+
+stop
+@enduml
